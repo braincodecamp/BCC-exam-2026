@@ -4,22 +4,6 @@ import pandas as pd
 # ----- ข้อมูลตัวอย่าง -----
 example_data = {
     "employee_id": [1, 2, 3, 4, 5, 1],
-    "name": [
-        "Alice Smith",
-        "Bob Jones",
-        "Charlie Lee",
-        "Diana Khan",
-        "Eve Brown",
-        "Alice Smith",
-    ],
-    "department": [
-        "Engineering",
-        "Sales",
-        None,
-        "Engineering",
-        "HR",
-        "Engineering",
-    ],
     "salary": [
         "$70,000",
         "$55,000",
@@ -37,14 +21,6 @@ example_data = {
         "Germany",
         "USA",
     ],
-    "hire_date": [
-        "2018-05-10",
-        "07/15/2020",
-        "03-Jan-2019",
-        "2021-11-22",
-        "15-Aug-2017",
-        "2018-05-10",
-    ],
 }
 
 example_df = pd.DataFrame(example_data)
@@ -52,20 +28,6 @@ example_df = pd.DataFrame(example_data)
 # ----- ฟังก์ชั่นสำหรับตรวจสอบคำตอบ --------
 answer_key = {
     "employee_id": [1, 2, 3, 4, 5],
-    "name": [
-        "Alice Smith",
-        "Bob Jones",
-        "Charlie Lee",
-        "Diana Khan",
-        "Eve Brown",
-    ],
-    "department": [
-        "Engineering",
-        "Sales",
-        None,
-        "Engineering",
-        "HR",
-    ],
     "salary": [70000.0, 55000.0, 70000.0, 70000.0, 90000.0],
     "age": [34.0, 28.0, 34.0, 45.0, 34.0],
     "country": [
@@ -75,16 +37,8 @@ answer_key = {
         "United Kingdom",
         "Germany",
     ],
-    "hire_date": [
-        "2018-05-10",
-        "2020-07-15",
-        "2019-01-03",
-        "2021-11-22",
-        "2017-08-15",
-    ],
 }
 answer_key = pd.DataFrame(answer_key)
-answer_key["hire_date"] = pd.to_datetime(answer_key["hire_date"])
 
 def is_your_answer_correct(your_answer, answer_key: pd.DataFrame) -> bool:
     if not isinstance(your_answer, pd.DataFrame):

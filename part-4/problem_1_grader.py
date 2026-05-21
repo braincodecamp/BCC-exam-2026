@@ -24,27 +24,24 @@ example_data = {
         "Electronics",
         "Clothing"
     ],
-    "country": [
-        "USA",
-        "USA",
-        "UK",
-        "UK",
-        "USA",
-        "Germany",
-        "USA",
-        "USA"
-    ]
 }
 
 example_df = pd.DataFrame(example_data)
 example_df["transaction_date"] = pd.to_datetime(example_df["transaction_date"])
 
 # ----- ฟังก์ชั่นสำหรับตรวจสอบคำตอบ --------
+answer_key = {
+    'n_unique_customers': 4,
+    'top_3_categories': ['Electronics', 'Clothing', 'Food'],
+    'pct_outlier_transactions': 12.5,
+    'monthly_revenue': {'2024-01': 150.0, '2024-02': 425.0, '2024-03': 610.0},
+}
+
 def is_your_answer_correct(your_answer: dict, answer_key: dict) -> bool:
     if not isinstance(your_answer, dict):
         return False
 
-    for k in ("n_unique_customers", "top_3_categories", "highest_spending_country"):
+    for k in ("n_unique_customers", "top_3_categories"):
         if your_answer.get(k) != answer_key.get(k):
             return False
 
@@ -69,12 +66,5 @@ def is_your_answer_correct(your_answer: dict, answer_key: dict) -> bool:
     return True
 
 def check_answer(your_answer: dict) -> str:
-    answer_key = {
-        'n_unique_customers': 4,
-        'top_3_categories': ['Electronics', 'Clothing', 'Food'],
-        'highest_spending_country': 'USA',
-        'pct_outlier_transactions': 12.5,
-        'monthly_revenue': {'2024-01': 150.0, '2024-02': 425.0, '2024-03': 610.0},
-    }
     return "ถูก" if is_your_answer_correct(your_answer, answer_key) else "ผิด"
 # ------------------------------------
