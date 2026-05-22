@@ -128,11 +128,10 @@ def check_all_answers() -> None:
     else:
         is_numeric = pd.api.types.is_numeric_dtype(result["salary"])
         n_null     = int(result["salary"].isna().sum())
-        if not is_numeric or n_null > 0:
-            parts = []
-            if not is_numeric: parts.append("ยังไม่ใช่ตัวเลข")
-            if n_null:         parts.append(f"มี None/NA/NaN เหลืออยู่ {n_null} ค่า")
-            print(f"  3. clean_salary: ผิด ✗  ({', '.join(parts)})")
+        if not is_numeric:
+            print("  3. clean_salary: ผิด ✗  (ยังมีค่าที่ไม่ใช่ตัวเลข)")
+        elif n_null > 0:
+            print(f"  3. clean_salary: ผิด ✗  (มี None/NA/NaN เหลืออยู่ {n_null} ค่า)")
         elif can_align(result):
             r, e = aligned(result)
             if np.allclose(r["salary"].astype(float), e["salary"].astype(float)):
