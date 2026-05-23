@@ -74,10 +74,7 @@ def check_all_answers() -> None:
         if n_dups == 0 and rows_ok:
             print("  1. deduplicate: ถูก ✓")
         else:
-            parts = []
-            if n_dups > 0:   parts.append(f"ยังมีแถวซ้ำ {n_dups} แถว")
-            if not rows_ok:  parts.append(f"จำนวนแถวปัจจุบัน: {len(result)} (คำตอบ: {len(answer_key)})")
-            print(f"  1. deduplicate: ผิด ✗  ({', '.join(parts)})")
+            if n_dups > 0:   print(f"  1. deduplicate: ผิด ✗  (ยังมีแถวซ้ำ {n_dups} แถว)")
 
     # ── 2. standardize_countries ─────────────────────────────────────────────
     # ต้องรับ df ดิบ (มีแถวซ้ำ) เป็น input และคงจำนวนแถวเดิม
