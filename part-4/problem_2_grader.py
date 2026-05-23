@@ -142,8 +142,3 @@ def check_all_answers() -> None:
                 print(f"  3. clean_salary: ผิด ✗  ({n_diff} ค่าไม่ตรงกับเฉลย)")
         else:
             print("  3. clean_salary: ถูก ✓")
-
-    # ── แจ้งเตือนถ้า dedup ยังไม่ผ่าน ───────────────────────────────────────
-    if not dedup_ok:
-        print()
-        print("  ⚠️  ขั้นตอนที่ 2, 3 และ 4 ต้องทำขั้นตอนที่ 1 (deduplicate) ให้สำเร็จก่อน")
