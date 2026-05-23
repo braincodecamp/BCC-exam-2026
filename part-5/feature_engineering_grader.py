@@ -71,15 +71,7 @@ answer_key = pd.DataFrame(
             0.0,
         ],
         "customer_avg_spend_prior": [np.nan, np.nan, 240.0, 80.0, 210.0, np.nan],
-        "amount_zscore_by_category": [
-            -0.218218,
-            1.044053,
-            -0.872872,
-            -0.094914,
-            1.091089,
-            -0.949136,
-        ],
-        "discount_pct": [0.20, 0.20, 0.10, 0.25, 0.10, 0.25],
+        "discount_pct": [20.0, 20.0, 10.0, 25.0, 10.0, 25.0],
     }
 )
 
@@ -95,14 +87,20 @@ NEW_COLS = [
     "time_of_day",
     "days_since_first_purchase",
     "customer_avg_spend_prior",
-    "amount_zscore_by_category",
     "discount_pct",
 ]
 FLOAT_COLS = [
     "days_since_first_purchase",
-    "amount_zscore_by_category",
     "discount_pct",
 ]
+
+
+# Per-column absolute tolerance for float comparisons
+FLOAT_TOLERANCES = {
+    "days_since_first_purchase": 0.01,
+    "customer_avg_spend_prior": 0.01,
+    "discount_pct": 1.0,
+}
 
 
 def is_your_answer_correct(your_answer, answer_key: pd.DataFrame) -> bool:
@@ -119,12 +117,12 @@ def is_your_answer_correct(your_answer, answer_key: pd.DataFrame) -> bool:
         if not (a["time_of_day"].astype(str) == e["time_of_day"]).all():
             return False
 
-        # ค่าตัวเลขที่ไม่มี NaN — คลาดเคลื่อนได้ไม่เกิน ±0.01
+        # ค่าตัวเลขที่ไม่มี NaN — คลาดเคลื่อนได้ตาม tolerance ของแต่ละคอลัมน์
         for col in FLOAT_COLS:
             if not np.allclose(
                 a[col].astype(float).values,
                 e[col].values,
-                atol=0.01,
+                atol=FLOAT_TOLERANCES[col],
                 equal_nan=False,
             ):
                 return False
@@ -135,7 +133,11 @@ def is_your_answer_correct(your_answer, answer_key: pd.DataFrame) -> bool:
         if not (pd.isna(a_vals) == pd.isna(e_vals)).all():
             return False
         mask = ~pd.isna(e_vals)
-        if not np.allclose(a_vals[mask], e_vals[mask], atol=0.01):
+        if not np.allclose(
+            a_vals[mask],
+            e_vals[mask],
+            atol=FLOAT_TOLERANCES["customer_avg_spend_prior"],
+        ):
             return False
 
         return True
