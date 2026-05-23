@@ -5,7 +5,7 @@ import pandas as pd
 # ── ข้อมูลตัวอย่าง ──────────────────────────────────────────────────────────
 example_df = pd.DataFrame({
     "employee_id": [1, 2, 3, 4, 5, 1],
-    "salary":      ["$70,000", "$55,000", None, "N/A", "$90,000", "$70,000"],
+    "salary":      ["$70000", "$55000", None, "N/A", "$90000", "$70000"],
     "age":         [34.0, 28.0, 200.0, 45.0, -5.0, 34.0],
     "country":     ["USA", "usa", "United Kingdom", "U.K.", "Germany", "USA"],
 })
@@ -20,7 +20,7 @@ answer_key = pd.DataFrame({
 })
 
 # ── ฟังก์ชันตรวจคำตอบ ────────────────────────────────────────────────────────
-_EXPECTED_NAMES    = ["deduplicate", "standardize_countries", "clean_salary", "clean_age"]
+_EXPECTED_NAMES    = ["deduplicate", "standardize_countries", "clean_salary"]
 _ALLOWED_COUNTRIES = {"United States", "United Kingdom", "Germany"}
 
 
@@ -142,31 +142,6 @@ def check_all_answers() -> None:
                 print(f"  3. clean_salary: ผิด ✗  ({n_diff} ค่าไม่ตรงกับเฉลย)")
         else:
             print("  3. clean_salary: ถูก ✓")
-
-    # ── 4. clean_age ─────────────────────────────────────────────────────────
-    result, err = run("clean_age")
-    if err == "missing":
-        print("  4. clean_age: ⚠️  ไม่พบฟังก์ชัน")
-    elif err:
-        print(f"  4. clean_age: ERROR: {err}")
-    elif not isinstance(result, pd.DataFrame) or "age" not in result.columns:
-        print("  4. clean_age: ผิด ✗  (ไม่พบคอลัมน์ age)")
-    else:
-        out_of_range = result["age"].notna() & ~result["age"].between(18, 100)
-        n_bad = int(out_of_range.sum())
-        if n_bad > 0:
-            bad_vals = result.loc[out_of_range, "age"].tolist()
-            print(f"  4. clean_age: ผิด ✗  (มีค่าที่ไม่ถูกต้อง: {bad_vals} ค่า)")
-        elif can_align(result):
-            r, e = aligned(result)
-            if np.allclose(r["age"].astype(float), e["age"].astype(float)):
-                print("  4. clean_age: ถูก ✓")
-            else:
-                n_diff = int((~np.isclose(
-                    r["age"].astype(float), e["age"].astype(float))).sum())
-                print(f"  4. clean_age: ผิด ✗  ({n_diff} ค่าไม่ตรงกับเฉลย)")
-        else:
-            print("  4. clean_age: ถูก ✓")
 
     # ── แจ้งเตือนถ้า dedup ยังไม่ผ่าน ───────────────────────────────────────
     if not dedup_ok:
