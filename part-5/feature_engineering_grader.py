@@ -33,6 +33,27 @@ example_df = pd.DataFrame(example_data)
 answer_key = pd.DataFrame(
     {
         "transaction_id": [1, 2, 3, 4, 5, 6],
+        "customer_id": [10, 20, 10, 20, 10, 30],
+        "timestamp": pd.to_datetime(
+            [
+                "2024-01-05 09:30:00",
+                "2024-01-05 14:15:00",
+                "2024-01-10 22:00:00",
+                "2024-01-12 08:45:00",
+                "2024-02-01 19:30:00",
+                "2024-02-03 03:00:00",
+            ]
+        ),
+        "category": [
+            "Electronics",
+            "Clothing",
+            "Electronics",
+            "Clothing",
+            "Electronics",
+            "Clothing",
+        ],
+        "original_price": [300.0, 100.0, 200.0, 80.0, 400.0, 60.0],
+        "amount": [240.0, 80.0, 180.0, 60.0, 360.0, 45.0],
         "time_of_day": [
             "morning",
             "afternoon",
